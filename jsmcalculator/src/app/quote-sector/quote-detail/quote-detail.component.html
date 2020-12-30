@@ -1,0 +1,231 @@
+<!-- <div class="downloadbutton">
+    <button mat-raised-button color="primary" (click)="exportAsPDF();"><mat-icon>get_app</mat-icon> Download</button>
+</div> -->
+<div id="download_id" class="invoice-box">
+    <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td class="title">
+                            <img src="/assets/images/StonemartLogoLoRes.png" style="width:100%; max-width:300px;">
+                        </td>
+
+                        <td>
+                            <strong> Stonemart Memorial<br>
+                            310 Mahoneys Road Thomastown Vic 3074<br>
+                            1300 696 896</strong>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr class="information">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td>
+                            <br>
+                            <strong>Customer Name:</strong> {{currentQuote['quote']['name']}}<br>
+                            <strong>Customer Phone:</strong> {{currentQuote['quote'].phone}}<br>
+                            <strong *ngIf="currentQuote['quote']['cemetery']">Cemetary:</strong> {{currentQuote['quote'].cemetery? currentQuote['quote'].cemetery +' ' : ""}} <strong *ngIf="currentQuote['quote']['section']">Section:</strong> {{currentQuote['quote'].section? currentQuote['quote'].section : ""}}
+                            <br><strong *ngIf="currentQuote['quote']['row']">Row:</strong> {{currentQuote['quote']['row']? currentQuote['quote'].row +' ' : ""}} <strong *ngIf="currentQuote['quote']['grave_no']">Grave No :</strong> {{currentQuote['quote']['grave_no']? currentQuote['quote'].grave_no : ""}}
+                            <br><strong *ngIf="currentQuote['quote']['funeralProvider']">Funeral Provider:</strong> {{currentQuote['quote']['funeralProvider']? currentQuote['quote']['funeralProvider']: ""}}<br>
+                            
+                        </td>
+
+                        <td>
+                            <br>
+                            <strong *ngIf="currentQuote['quote']['monumentStyle']">Style:</strong> {{currentQuote['quote']['monumentStyle']? currentQuote['quote']['monumentStyle'] : ""}}<br *ngIf="currentQuote['quote']['monumentStyle']">
+                            <strong *ngIf="currentQuote['quote']['advertisement']">How to Find Us:</strong> {{currentQuote['quote']['advertisement']? currentQuote['quote']['advertisement']: ""}}<br *ngIf="currentQuote['quote']['advertisement']"> 
+                            <strong>Staff:</strong> {{currentQuote['quote']['staff'].name}}<br>
+                            <strong>Created:</strong> {{currentQuote['quote'].modifiedDate.substring(0,10)}}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr *ngIf="currentQuote['quote'].monument.length>0" class="heading">
+            <td>
+                Monument
+            </td>
+            <td>
+                Size
+            </td>
+        </tr>
+        <ng-container *ngIf="currentQuote['quote'].monument.length>0">
+            <tr class="item" *ngFor="let monu of currentQuote['quote'].monument">
+                <td>
+                    {{monu.monumentId.englishName + "/" 
+                    + monu.monumentId.chineseName + " Origin: " + monu.monumentId.origin }}
+                </td>
+            </tr>
+        </ng-container>
+
+
+        <!-- <tr *ngIf="currentQuote['quote'].monument.length>0" class="details">
+            <td>
+                {{currentQuote.quote.monument.englishName + "/" 
+                    + currentQuote.quote.monument.chineseName + " Origin: " + currentQuote.quote.monument.origin }}
+            </td>
+            <td>
+                {{currentQuote.quote.monumentSize}}
+            </td>
+        </tr> -->
+
+        <tr *ngIf="currentQuote['quote'].installation || currentQuote['quote'].additionalInstallation.length>0" class="heading">
+            <td>
+                Installation and Delivery
+            </td>
+            <td>
+                Type
+            </td>
+        </tr>
+
+        <tr *ngIf="currentQuote['quote'].installation" class="item">
+            <td>
+                {{currentQuote.quote.installation.name}}
+            </td>
+
+            <td>
+                {{currentQuote.quote.installation.monumentType}}
+            </td>
+        </tr>
+
+        <ng-container *ngIf="currentQuote['quote'].additionalInstallation.length>0">
+        <tr class="item" *ngFor="let additionInstall of currentQuote['quote'].additionalInstallation">
+            <td>
+                {{additionInstall.name}}
+            </td>
+
+            <td>
+                {{additionInstall.monumentType}}
+            </td>
+        </tr>
+        </ng-container>
+
+        <tr *ngIf="currentQuote['quote'].foundation || currentQuote['quote'].additionalFoundation.length>0" class="heading">
+            <td>
+                Foundation
+            </td>
+            <td>
+                Type
+            </td>
+        </tr>
+
+        <tr *ngIf="currentQuote['quote'].foundation" class="item">
+            <td>
+                {{currentQuote.quote.foundation.name}}
+            </td>
+
+            <td>
+                {{currentQuote.quote.foundation.type}}
+            </td>
+        </tr>
+        <ng-container *ngIf="currentQuote['quote'].additionalFoundation.length>0">
+        <tr class="item" *ngFor="let additionalFound of currentQuote['quote'].additionalFoundation">
+            <td>
+                {{additionalFound.name}}
+            </td>
+
+            <td>
+                {{additionalFound.type}}
+            </td>
+        </tr>
+        </ng-container>
+
+        <tr *ngIf="currentQuote['quote'].inscription.length>0" class="heading">
+                <td>
+                    Inscription
+                </td>
+                <td>
+                    Quantity
+                </td>
+        </tr>
+        <ng-container *ngIf="currentQuote['quote'].inscription.length>0">
+                <tr class="item" *ngFor="let inscrip of currentQuote['quote'].inscription">
+                    <td>
+                        {{inscrip.inscriptionId.name}}
+                    </td>
+        
+                    <td>
+                        {{inscrip.inscriptionNumber}}
+                    </td>
+                </tr>
+        </ng-container>
+
+        <tr *ngIf="currentQuote['quote'].accessories.length>0" class="heading">
+                <td>
+                    Accessories
+                </td>
+                <td>
+                    Quantity
+                </td>
+        </tr>
+        <ng-container *ngIf="currentQuote['quote'].accessories.length>0">
+                <tr class="item" *ngFor="let accessory of currentQuote['quote'].accessories">
+                    <td>
+                        {{"[" + accessory.accessoriesId.accessoriesType + "]" 
+                             + accessory.accessoriesId.name
+                            +" / Size: " + accessory.accessoriesId.size}}
+                    </td>
+        
+                    <td>
+                        {{accessory.accessoriesNumber}}
+                    </td>
+                </tr>
+        </ng-container>
+
+        <tr *ngIf="currentQuote['quote'].casting.length>0" class="heading">
+                <td>
+                    Casting
+                </td>
+                <td>
+                    Quantity
+                </td>
+        </tr>
+        <ng-container *ngIf="currentQuote['quote'].casting.length>0">
+                <tr class="item" *ngFor="let casting of currentQuote['quote'].casting">
+                    <td>
+                        {{ casting.castingId.name + " / Size: " + casting.castingId.size}}
+                    </td>
+        
+                    <td>
+                        {{casting.castingNumber}}
+                    </td>
+                </tr>
+        </ng-container>
+        <tr *ngIf="currentQuote['quote'].extraFee || currentQuote['quote'].permitFee" class="heading">
+            <td>
+                Extra Fee/Permit Fee
+            </td>
+            <td>
+                Price
+            </td>
+        </tr>
+        <tr *ngIf="currentQuote['quote'].extraFee" class="details">
+            <td>
+                Extra Fee
+            </td>
+            <td>
+                {{currentQuote.quote.extraFee}}
+            </td>
+        </tr>
+        <tr *ngIf="currentQuote['quote'].permitFee" class="details">
+                <td>
+                    Permit Fee
+                </td>
+                <td>
+                    {{currentQuote.quote.permitFee}}
+                </td>
+            </tr>
+        <tr class="total">
+            <td></td>
+
+            <td>
+                Total: ${{currentQuote["totalPrice"]}}
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,258 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h2 class="card-title">Get A Quote</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form #f="ngForm" (ngSubmit)="save(f.value)">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3 class="card-title">Customer Information</h3>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                      <input #name="ngModel" [(ngModel)]="currentQuote.name" name="name" matInput placeholder="Name" required>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="name.touched && name.invalid && name.errors.required">
+                                        Name is <strong>required</strong>
+                                    </mat-error>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                      <input #phone="ngModel" [(ngModel)]="currentQuote.phone" name="phone" matInput placeholder="Phone" required>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="phone.touched && phone.invalid && phone.errors.required">
+                                        Phone number is <strong>required</strong>
+                                    </mat-error>
+                                </div>
+
+                                <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                          <input #email="ngModel" [(ngModel)]="currentQuote.email" name="email" matInput placeholder="Email" type="email">
+                                        </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                      <input #cemetary="ngModel" [(ngModel)]="currentQuote.cemetary" name="cemetary" matInput placeholder="Cemetery" required>
+                                    </mat-form-field>
+                                </div>
+                
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                      <input #section="ngModel" [(ngModel)]="currentQuote.section" name="section" matInput placeholder="Section" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                  <mat-form-field class="example-full-width">
+                                    <input #funeralProvider="ngModel" [(ngModel)]="currentQuote.funeralProvider" name="funeralProvider" matInput placeholder="Funeral Provider" required>
+                                  </mat-form-field>
+                              </div>
+                                <div class="col-md-12">
+                                        <h3 class="card-title">Monument Information</h3>
+                                </div>
+                                <div class="col-md-12" *ngFor="let monument of monumentCollection; let i = index;">
+                                  <mat-form-field class="example-full-width col-md-2">
+                                        <mat-label>-- Select Color --</mat-label>
+                                          <mat-select [(ngModel)]="monument.color" name="monumentColor_{{monument_id+i}}" (selectionChange)="filterMonument($event.value, i)">
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let color of colorList" [value]="color.name">
+                                              {{ color.displayName }}
+                                            </mat-option>
+                                          </mat-select>
+                                  </mat-form-field>
+                                  <mat-form-field class="example-full-width col-md-4">
+                                        <mat-label>-- Select Monument --</mat-label>
+                                          <mat-select [(ngModel)]="monument.name" name="monumentName_{{monument_id+i}}" (selectionChange)="filterMonumentSize($event.value, i)">
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let monumentName of monumentNameCollection[i]" [value]="monumentName.name">
+                                              {{ monumentName.displayName }}
+                                            </mat-option>
+                                          </mat-select>
+                                  </mat-form-field>
+                                  <mat-form-field class="example-full-width col-md-3">
+                                        <mat-label>-- Select Size --</mat-label>
+                                          <mat-select [(ngModel)]="monument.size" name="monumentSize{{monument_id+i}}" >
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let size of monumentSizeCollection[i]" [value]="size._id">
+                                              {{ size.size }}
+                                            </mat-option>
+                                          </mat-select>
+                                  </mat-form-field>
+                                  <mat-form-field class="example-full-width col-md-1">
+                                    <input [(ngModel)]="monument.number" name="monumentNumber_{{monument_id+i}}" matInput placeholder="Real Size" type="number" min="0">
+                                </mat-form-field>
+                                <button mat-button *ngIf="monumentCollection.length!= 1" type="button" (click)="removeMonument(i)">
+                                  <mat-icon class="material-icons color_red" aria-hidden="false" aria-label="Example home icon">remove_circle_outline</mat-icon>
+                                </button>
+                                <button mat-button *ngIf="i == (monumentCollection.length-1)" type="button" (click)="addMonument()">
+                                  <mat-icon class="material-icons color_green" aria-hidden="false" aria-label="Example home icon">add_circle_outline</mat-icon>
+                                </button>
+                              </div>
+
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>-- Select Installation --</mat-label>
+                                          <mat-select ngModel name="installation" >
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let installation of installationCollection" [value]="installation.id">
+                                              {{ installation.name }}
+                                            </mat-option>
+                                          </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>-- Select Additional Installation --</mat-label>
+                                          <mat-select ngModel  multiple name="additionalInstallation" >
+                                            <mat-option *ngFor="let additionalInstallation of additionalInstallationCollection" [value]="additionalInstallation.id">
+                                              {{ additionalInstallation.name }}
+                                            </mat-option>
+                                          </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>-- Select Foundation --</mat-label>
+                                          <mat-select ngModel name="foundation" >
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let foundation of foundationCollection" [value]="foundation.id">
+                                              {{ foundation.name }}
+                                            </mat-option>
+                                          </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>-- Select Additional Foundation --</mat-label>
+                                          <mat-select ngModel multiple name="additionalFoundation" >
+                                            <mat-option *ngFor="let additionalFoundation of additionalFoundationCollection" [value]="additionalFoundation.id">
+                                              {{ additionalFoundation.name }}
+                                            </mat-option>
+                                          </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-12">
+                                        <h3 class="card-title">Inscription</h3>
+                                </div>
+                                <div class="col-md-12" *ngFor="let inscription of inscriptionCollection; let i = index;" >
+                                    <mat-form-field class="example-full-width col-md-2">
+                                        <mat-label>-- Select Type --</mat-label>
+                                          <mat-select [(ngModel)]="inscription.type" name="inscriptionType_{{ inscription_id +i}}" (selectionChange)="filterInscription($event.value, i)" >
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let type of inscriptionTypeList" [value]="type">
+                                              {{ type }}
+                                            </mat-option>
+                                          </mat-select>
+                                    </mat-form-field>
+                                        <mat-form-field class="example-full-width col-md-6">
+                                            <mat-label>-- Select Inscription --</mat-label>
+                                              <mat-select [(ngModel)]="inscription.inscriptionId" name="inscriptionType_{{ inscription_id +i}}" >
+                                                <mat-option>--</mat-option>
+                                                <mat-option *ngFor="let singleInscription of inscriptionNameCollection[i]" [value]="singleInscription._id">
+                                                  {{ singleInscription.name }}
+                                                </mat-option>
+                                              </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field class="example-full-width col-md-2">
+                                            <input [(ngModel)]="inscription.inscriptionNumber" name="inscriptionType_{{ inscription_id +i}}" matInput placeholder="Number" type="number">
+                                        </mat-form-field>
+                                        <button mat-button *ngIf="inscriptionCollection.length != 1 "type="button" (click)="removeInscription(i)">
+                                            <mat-icon class="material-icons color_red" aria-hidden="false" aria-label="Example home icon">remove_circle_outline</mat-icon>
+                                        </button>
+                                        <button mat-button *ngIf="i == (inscriptionCollection.length - 1)" type="button" (click)="addInscription()">
+                                            <mat-icon class="material-icons color_green" aria-hidden="false" aria-label="Example home icon">add_circle_outline</mat-icon>
+                                        </button>
+                        
+                                </div>
+                                <div class="col-md-12">
+                                    <h3 class="card-title">Accessories</h3>
+                                </div>
+                                <div class="col-md-12" *ngFor="let accessory of accessoriesCollection; let i = index;" >
+                                    <mat-form-field class="example-full-width col-md-2">
+                                        <mat-label>-- Select Type --</mat-label>
+                                          <mat-select [(ngModel)]="accessory.type" name="accessoriesType_{{ accessories_id +i}}" (selectionChange)="filterAccessories($event.value, i)" >
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let type of accessoriesTypeList" [value]="type">
+                                              {{ type }}
+                                            </mat-option>
+                                          </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width col-md-5">
+                                            <mat-label>-- Select Accessories --</mat-label>
+                                              <mat-select [(ngModel)]="accessory.name" name="accessoriesName_{{accessories_id+i}}" (selectionChange)="filterAccessoriesSize($event.value, i)" >
+                                                <mat-option>--</mat-option>
+                                                <mat-option *ngFor="let accessoryName of accessoriesNameCollection[i]" [value]="accessoryName.name">
+                                                  {{ accessoryName.displayName }}
+                                                </mat-option>
+                                              </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width col-md-2">
+                                            <mat-label>-- Select Size --</mat-label>
+                                              <mat-select [(ngModel)]="accessory.size" name="accessoriesSize_{{accessories_id+i}}" >
+                                                <mat-option>--</mat-option>
+                                                <mat-option *ngFor="let accessoriesSize of accessoriesSizeCollection[i]" [value]="accessoriesSize._id">
+                                                  {{ accessoriesSize.size }}
+                                                </mat-option>
+                                              </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width col-md-2">
+                                        <input [(ngModel)]="accessory.number" name="accessoriesNumber_{{ accessories_id +i}}" matInput placeholder="Quantity" type="number" min="0">
+                                    </mat-form-field>
+                                    
+                                    <button mat-button *ngIf="accessoriesCollection.length!= 1" type="button" (click)="removeAccessories(i)">
+                                        <mat-icon class="material-icons color_red" aria-hidden="false" aria-label="Example home icon">remove_circle_outline</mat-icon>
+                                    </button>
+                                    <button mat-button *ngIf="i == (accessoriesCollection.length-1)" type="button" (click)="addAccessories()">
+                                        <mat-icon class="material-icons color_green" aria-hidden="false" aria-label="Example home icon">add_circle_outline</mat-icon>
+                                    </button>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                  <mat-form-field class="example-full-width">
+                                    <input #advertisement="ngModel" [(ngModel)]="currentQuote.advertisement" name="advertisement" matInput placeholder="How did you find us" required>
+                                  </mat-form-field>
+                              </div>
+              
+                              <div class="col-md-2">
+                                  <mat-form-field class="example-full-width">
+                                    <input #extraFee="ngModel" [(ngModel)]="currentQuote.extraFee" name="extraFee" matInput placeholder="Extra Fee" type="number" min="0">
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-2">
+                                  <mat-form-field class="example-full-width">
+                                    <input #permitFee="ngModel" [(ngModel)]="currentQuote.permitFee" name="permitFee" matInput placeholder="Permit Fee" type="number" min="0">
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-2">
+                                <mat-form-field class="example-full-width">
+                                  <input #discount="ngModel" [(ngModel)]="currentQuote.discount" name="discount" matInput placeholder="Discount %" max="10" min="0" required>
+                                </mat-form-field>
+                              </div>
+                                
+                                <div class="col-md-12">
+                                  <mat-form-field class="example-full-width">
+                                      <textarea #note="ngModel" [(ngModel)]="currentQuote.note" name="note" matInput placeholder="Note"></textarea>
+                                </mat-form-field>
+                          </div>
+                            </div>
+                            <button mat-raised-button type="submit" class="btn btn-danger" style="float: right;" [disabled]="f.invalid">Create Monument</button>
+                            <!-- <button mat-raised-button type="submit" class="btn btn-danger pull-right" *ngIf="id" [disabled]="f.invalid">Update Monument</button>
+                            <button mat-raised-button type="button" class="btn btn-dark pull-left" *ngIf="id" (click)="deleteMonument()">Delete Monument</button>
+                             -->
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

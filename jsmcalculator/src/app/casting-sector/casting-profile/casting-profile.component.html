@@ -1,0 +1,52 @@
+<div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-danger">
+                            <h4 class="card-title">Edit Casting</h4>
+                        </div>
+                        
+                        <div class="card-body">
+                            <form #f="ngForm" (ngSubmit)="save(f.value)">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <mat-form-field class="example-full-width">
+                                          <input #name="ngModel" [(ngModel)]="currentCasting.name" name="name" matInput placeholder="Name" required>
+                                        </mat-form-field>
+                                        <mat-error *ngIf="name.touched && name.invalid && name.errors.required">
+                                            Name is <strong>required</strong>
+                                        </mat-error>
+                                    </div>
+                    
+                                    <div class="col-md-8">
+                                            <mat-form-field class="example-full-width">
+                                              <input #size="ngModel" [(ngModel)]="currentCasting.size" name="size" matInput placeholder="Size" required>
+                                            </mat-form-field>
+                                            <mat-error *ngIf="size.touched && size.invalid && size.errors.required">
+                                                Size is <strong>required</strong>
+                                            </mat-error>
+                                        </div>
+    
+                                    <div class="col-md-8">
+                                        <mat-form-field class="example-full-width">
+                                          <input #price="ngModel" [(ngModel)]="currentCasting.price" name="price" matInput placeholder="Price" type="number" required>
+                                        </mat-form-field>
+                                        <mat-error *ngIf="price.touched && price.invalid && price.errors.required">
+                                            Price is <strong>required</strong>
+                                        </mat-error>
+                                    </div>
+                                </div>
+                                <button mat-raised-button type="submit" class="btn btn-danger pull-right" *ngIf="!id" [disabled]="f.invalid">Create Casting</button>
+                                <button mat-raised-button type="submit" class="btn btn-danger pull-right" *ngIf="id" [disabled]="f.invalid">Update Casting</button>
+                                <button mat-raised-button type="button" class="btn btn-dark pull-left" *ngIf="id" (click)="deleteCasting()">Delete Casting</button>
+                                
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    

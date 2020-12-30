@@ -1,0 +1,79 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Edit Monument</h4>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form #f="ngForm" (ngSubmit)="save(f.value)">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <mat-form-field class="example-full-width">
+                                      <input #englishName="ngModel" [(ngModel)]="currentMonument.englishName" name="englishName" matInput placeholder="English Name" required>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="englishName.touched && englishName.invalid && englishName.errors.required">
+                                        Name is <strong>required</strong>
+                                    </mat-error>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <mat-form-field class="example-full-width">
+                                      <input #chineseName="ngModel" [(ngModel)]="currentMonument.chineseName" name="chineseName" matInput placeholder="Chinese Name" required>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="chineseName.touched && chineseName.invalid && chineseName.errors.required">
+                                        Chinese Name is <strong>required</strong>
+                                    </mat-error>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <mat-form-field class="example-full-width">
+                                      <input #color="ngModel" [(ngModel)]="currentMonument.color" name="color" matInput placeholder="Color" required>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="color.touched && color.invalid && color.errors.required">
+                                        Color <strong>required</strong>
+                                    </mat-error>
+                                </div>
+                
+                                <div class="col-md-8">
+                                    <mat-form-field class="example-full-width">
+                                      <input #origin="ngModel" [(ngModel)]="currentMonument.origin" name="origin" matInput placeholder="Origin" required>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="origin.touched && origin.invalid && origin.errors.required">
+                                        Origin is <strong>required</strong>
+                                    </mat-error>
+                                </div>
+                                <div class="col-md-8">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>-- Select Size --</mat-label>
+                                          <mat-select [(ngModel)]="currentMonument.size" name="size" required>
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let size of sizes" [value]="size">
+                                              {{ size }}
+                                            </mat-option>
+                                          </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-8">
+                                    <mat-form-field class="example-full-width">
+                                      <input #price="ngModel" [(ngModel)]="currentMonument.price" name="price" matInput placeholder="Price" type="number" required>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="price.touched && price.invalid && price.errors.required">
+                                        Price is <strong>required</strong>
+                                    </mat-error>
+                                </div>
+                            </div>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" *ngIf="!id" [disabled]="f.invalid">Create Monument</button>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" *ngIf="id" [disabled]="f.invalid">Update Monument</button>
+                            <button mat-raised-button type="button" class="btn btn-dark pull-left" *ngIf="id" (click)="deleteMonument()">Delete Monument</button>
+                            
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

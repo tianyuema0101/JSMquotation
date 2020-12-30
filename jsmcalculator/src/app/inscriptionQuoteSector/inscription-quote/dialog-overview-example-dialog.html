@@ -1,0 +1,19 @@
+<div mat-dialog-content>
+  <p>Case description</p>
+  <mat-form-field>
+        <mat-label>-- Select Status --</mat-label>
+          <mat-select [(ngModel)]="data.status" name="status" required>
+            <mat-option>--</mat-option>
+            <mat-option value="Success">Success </mat-option>
+            <mat-option value="Pending">Pending </mat-option>
+            <mat-option value="Fail">Fail </mat-option>
+          </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput [(ngModel)]="data.reason" placeholder="Please input case description"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Submit</button>
+</div>

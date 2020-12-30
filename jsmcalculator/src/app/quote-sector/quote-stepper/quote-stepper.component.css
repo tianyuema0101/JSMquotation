@@ -1,0 +1,16 @@
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+  margin-right: 10px;
+}
+
+.middle-steper{
+    text-align: center;
+}
+
+/* .button-steper{
+    right: 10px !important;
+} */

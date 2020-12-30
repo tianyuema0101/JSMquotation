@@ -1,0 +1,9 @@
+.form{
+    width: 100%;
+}
+.mat-form-field{
+    width: 100%
+}
+.material-icons.color_green { color: rgb(77, 255, 0); }
+
+.material-icons.color_red { color: red; }

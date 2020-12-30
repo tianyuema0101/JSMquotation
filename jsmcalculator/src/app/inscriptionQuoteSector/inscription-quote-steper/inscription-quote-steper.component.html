@@ -1,0 +1,153 @@
+<mat-horizontal-stepper linear #stepper>
+        <mat-step [stepControl]="customerFormGroup">
+            <form [formGroup]="customerFormGroup">
+                <ng-template matStepLabel>Customer Information</ng-template>
+                <div class="middle-steper">
+                    <mat-form-field>
+                        <input formControlName="name" matInput placeholder="Customer Name" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input formControlName="phone" matInput placeholder="Phone" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input formControlName="email" matInput placeholder="Email" type="email">
+                    </mat-form-field>
+                </div>
+                <div class="middle-steper">
+                    <mat-form-field>
+                        <input formControlName="cemetery" matInput placeholder="Cemetery">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input formControlName="section" matInput placeholder="Section">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input formControlName="funeralProvider" matInput placeholder="Funeral Provider">
+                    </mat-form-field>
+                </div>
+                <div class="middle-steper">
+                    <mat-form-field>
+                        <input formControlName="row" matInput placeholder="Row">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input formControlName="grave_no" matInput placeholder="Grave No">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input formControlName="advertisement" matInput placeholder="How did you find us">
+                    </mat-form-field>
+    
+                </div>
+                <!-- <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="firstCtrl" placeholder="Last name, First name" required>
+                </mat-form-field> -->
+                <div>
+                    <button style="float: right;" mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="styleFormGroup">
+            <form [formGroup]="styleFormGroup">
+                <ng-template matStepLabel>Monument Style</ng-template>
+                <div class="middle-steper">
+                    <mat-form-field class="middle-steper">
+                        <mat-label>Select Monument Style</mat-label>
+                        <mat-select formControlName="monumentStyle">
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let option of monumentStyles" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <button style="float: right;" mat-button matStepperNext>Next</button>
+                    <button style="float: right;" mat-button matStepperPrevious>Back</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="permitFormGroup">
+            <form [formGroup]="permitFormGroup">
+                <ng-template matStepLabel>Permit</ng-template>
+                <div class="middle-steper">
+                    <mat-form-field>
+                        <input [(ngModel)]="currentQuote.permitFee" formControlName="permitFee" matInput
+                            placeholder="Permit Fee" type="number" min="0" required>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <button style="float: right;" mat-button matStepperNext>Next</button>
+                    <button style="float: right;" mat-button matStepperPrevious>Back</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="inscriptionFormGroup">
+            <form [formGroup]="inscriptionFormGroup">
+                <ng-template matStepLabel>Inscription</ng-template>
+                <div class="col-md-12" *ngFor="let inscription of inscriptionCollection; let i = index;">
+                    <mat-form-field class="example-full-width col-md-2">
+                        <mat-label>-- Select Type --</mat-label>
+                        <mat-select [(ngModel)]="inscription.type" formControlName="inscriptionType{{i}}"
+                            (selectionChange)="filterInscription($event.value, i)">
+                            <mat-option>--</mat-option>
+                            <mat-option *ngFor="let type of inscriptionTypeList" [value]="type">
+                                {{ type }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width col-md-6">
+                        <mat-label>-- Select Inscription --</mat-label>
+                        <mat-select [(ngModel)]="inscription.inscriptionId" formControlName="inscription{{i}}">
+                            <mat-option>--</mat-option>
+                            <mat-option *ngFor="let singleInscription of inscriptionNameCollection[i]"
+                                [value]="singleInscription._id">
+                                {{ singleInscription.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width col-md-2">
+                        <input [(ngModel)]="inscription.inscriptionNumber" formControlName="inscriptionNumber{{i}}" matInput
+                            placeholder="Number" type="number">
+                    </mat-form-field>
+                    <button mat-button *ngIf="inscriptionCollection.length != 1 " type="button"
+                        (click)="removeInscription(i)">
+                        <mat-icon class="material-icons color_red" aria-hidden="false" aria-label="Example home icon">
+                            remove_circle_outline</mat-icon>
+                    </button>
+                    <button mat-button *ngIf="i == (inscriptionCollection.length - 1)" type="button"
+                        (click)="addInscription()">
+                        <mat-icon class="material-icons color_green" aria-hidden="false" aria-label="Example home icon">
+                            add_circle_outline</mat-icon>
+                    </button>
+    
+                </div>
+                <div>
+                    <button style="float: right;" mat-button matStepperNext>Next</button>
+                    <button style="float: right;" mat-button matStepperPrevious>Back</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="extraFeeFormGroup">
+            <form [formGroup]="extraFeeFormGroup">
+                <ng-template matStepLabel>Extra Fee</ng-template>
+                <div class="middle-steper">
+                    <mat-form-field>
+                        <input [(ngModel)]="currentQuote.extraFee" formControlName="extraFee" matInput
+                            placeholder="Extra Fee" type="number" min="0" required>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <button style="float: right;" mat-button matStepperNext>Next</button>
+                    <button style="float: right;" mat-button matStepperPrevious>Back</button>
+                </div>
+            </form>
+        </mat-step>
+
+    
+        <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+            <p>You have completed the quotation form</p>
+            <div>
+                <button style="float: right;" mat-button type="button" (click)="submitData()">Submit</button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>

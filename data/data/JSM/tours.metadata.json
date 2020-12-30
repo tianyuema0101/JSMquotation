@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"JSM.tours"},{"v":2,"unique":true,"key":{"name":1},"name":"name_1","ns":"JSM.tours","background":true}],"uuid":"cdf045b85053463fa3c6618b7b9ffd14"}
